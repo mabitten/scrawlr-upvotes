@@ -8,12 +8,13 @@ type UpvoteProps = {
   onClick: () => void;
 };
 
-const Upvote: React.FC<UpvoteProps> = memo(({ selected, onClick }) => {
+const Upvote: React.FC<UpvoteProps> = memo(({ selected, onClick, ...props }) => {
   return (
     <Button
       onClick={onClick}
       variant={selected ? 'selected' : 'default'}
       aria-pressed={selected}
+      {...props}
     >
       <ChevronUpIcon className={`h-4 w-4 ${selected ? 'text-blue-500' : 'text-gray-900'}`} />
     </Button>

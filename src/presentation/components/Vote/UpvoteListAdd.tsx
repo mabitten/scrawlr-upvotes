@@ -8,12 +8,13 @@ type UpvoteListAddProps = {
   listId: number;
 };
 
-const UpvoteListAdd: React.FC<UpvoteListAddProps> = memo(({ addVoteToList, listId }) => {
+const UpvoteListAdd: React.FC<UpvoteListAddProps> = memo(({ addVoteToList, listId, ...props }) => {
   return (
     <Button
       onClick={() => addVoteToList(listId)}
       variant="default"
       aria-label="Add new upvote"
+      {...props}
     >
       <PlusIcon className="h-5 w-5" />
     </Button>

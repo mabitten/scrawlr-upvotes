@@ -26,12 +26,14 @@ const UpvoteList: React.FC<UpvoteListProps> = memo(({ listId }) => {
             key={vote.id}
             selected={vote.selected}
             onClick={() => toggleVote(listId, vote.id)}
+            data-testid={`upvote-button-${vote.id}`}
           />
         ))}
       </div>
       <UpvoteListAdd
         addVoteToList={addVoteToList}
         listId={listId}
+        data-testid="add-upvote-button"
       />
     </div>
   );
