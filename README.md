@@ -1,50 +1,69 @@
-# React + TypeScript + Vite
+# Upvotes Project
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is a voting application built with React, TypeScript, and Vite. It is configured with ESLint and Prettier to ensure code quality and uses JSDoc for documentation.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Voting System**: Allows users to vote on items.
+- **Documentation**: Utilizes JSDoc to document key classes and functions.
+- **Linting and Formatting**: Configured with ESLint and Prettier to maintain clean and organized code.
 
-## Expanding the ESLint configuration
+## Technologies Used
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- **React**: A library for building user interfaces.
+- **TypeScript**: A superset of JavaScript that adds static typing.
+- **Vite**: A fast build tool for modern web projects.
+- **ESLint**: A tool for identifying and fixing problems in JavaScript code.
+- **Prettier**: A code formatter.
+- **JSDoc**: A tool for generating documentation from comments in the code.
 
-- Configure the top-level `parserOptions` property like this:
+## Project Architecture
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+The project follows a clean architecture approach, which separates concerns into different layers:
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+- **Domain**: Contains the core business logic and use cases, such as the `ToggleVote` use case.
+- **Infrastructure**: Manages data access and storage, including repositories.
+- **Presentation**: Handles the user interface, including components and hooks.
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+## Available Scripts
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+- `npm run dev`: Starts the development server.
+- `npm run build`: Compiles the project for production.
+- `npm run test`: Runs tests using Vitest.
+- `npm run lint`: Runs ESLint to check for code issues.
+- `npm run format`: Runs Prettier to format the code.
+- `npm run doc`: Generates documentation using JSDoc.
+
+## Configuration
+
+### ESLint and Prettier
+
+The project is configured to use ESLint and Prettier. Import rules are automatically applied when saving files in VSCode.
+
+### JSDoc
+
+To generate documentation, run:
+
+## Project Setup
+
+1. **Clone the repository**:
+
+   ```bash
+   git clone <repository-url>
+   cd upvotes-project
+   ```
+
+2. **Install dependencies**:
+
+   ```bash
+   npm install
+   ```
+
+3. **Start the development server**:
+   ```bash
+   npm run dev
+   ```
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
