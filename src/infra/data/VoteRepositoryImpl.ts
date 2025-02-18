@@ -3,15 +3,16 @@ import { VoteRepository } from '../../domain/repositories';
 import { LocalStorage } from '../utils';
 
 enum LocalStorageKeys {
-  UpvoteLists = 'upvoteLists',
+  UpvoteListPrefix = 'upvoteList-',
 }
 
 export class VoteRepositoryImpl implements VoteRepository {
-  getLists(): VoteList[] {
-    return LocalStorage.getItem(LocalStorageKeys.UpvoteLists, []);
+  getList(listId: number): VoteList {
+    const key = `${LocalStorageKeys.UpvoteListPrefix}${listId}`;
+    return LocalStorage.getItem(key);
   }
 
-  saveLists(lists: VoteList[]): void {
-    LocalStorage.setItem(LocalStorageKeys.UpvoteLists, lists);
+  saveList(list: VoteList): void {
+    LocalStorage.setItem(`${LocalStorageKeys.UpvoteListPrefix}${list.id}`, list);
   }
 } 

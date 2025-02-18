@@ -15,18 +15,14 @@ export class ToggleVote {
    * @param {number} listId - The ID of the list.
    * @param {number} voteId - The ID of the vote.
    */
-  execute(listId: number, voteId: number) {
-    const lists = this.voteRepository.getLists();
-    const updatedLists = lists.map(list =>
-      list.id === listId
-        ? {
-            ...list,
-            votes: list.votes.map(vote =>
-              vote.id === voteId ? { ...vote, selected: !vote.selected } : vote
-            )
-          }
-        : list
-    );
-    this.voteRepository.saveLists(updatedLists);
+  execute(listId: number, voteId: number): void {
+    const list = this.voteRepository.getList(listId);
+    const updatedList = {
+      ...list,
+      votes: list.votes.map(vote =>
+        vote.id === voteId ? { ...vote, selected: !vote.selected } : vote
+      ),
+    };
+    this.voteRepository.saveList(updatedList);
   }
 } 

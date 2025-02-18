@@ -10,9 +10,6 @@ const App: React.FC = () => {
           <UpvoteCard title="List 2">
             <UpvoteList listId={2} />
           </UpvoteCard>
-          <UpvoteCard title="List 3">
-            <UpvoteList listId={3} />
-          </UpvoteCard>
         </div>
       </div>
   );

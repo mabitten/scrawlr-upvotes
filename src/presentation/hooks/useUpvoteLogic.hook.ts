@@ -1,59 +1,37 @@
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
+
 import { VoteList } from '../../types';
 import { VoteRepositoryImpl } from '../../infra/data/VoteRepositoryImpl';
+import { AddVote, ToggleVote } from '../../domain/usecases';
 
 /**
  * Custom hook to manage upvote logic.
  * @returns {object} The lists, toggleVote, and addVoteToList functions.
  */
-export const useUpvoteLogic = () => {
-
+export const useUpvoteLogic = (listId: number) => {
   const voteRepository = useMemo(() => new VoteRepositoryImpl(), []);
+  const addVoteUseCase = useMemo(() => new AddVote(voteRepository), [voteRepository]);
+  const toggleVoteUseCase = useMemo(() => new ToggleVote(voteRepository), [voteRepository]);
 
-  const [lists, setLists] = useState<VoteList[]>(() => voteRepository.getLists());
+  const [list, setList] = useState<VoteList>(() => voteRepository.getList(listId) || { id: listId, votes: [] });
 
-  useEffect(() => {
-    voteRepository.saveLists(lists);
-  }, [lists, voteRepository]);
+  useEffect(function saveListToStorage() {
+    voteRepository.saveList(list);
+  }, [list, voteRepository]);
 
-  const toggleVote = useCallback((listId: number, voteId: number) => {
-    setLists(prevLists => 
-      prevLists.map(list => 
-        list.id === listId
-          ? {
-              ...list,
-              votes: list.votes.map(vote =>
-                vote.id === voteId ? { ...vote, selected: !vote.selected } : vote
-              )
-            }
-          : list
-      )
-    );
-  }, []);
+  const toggleVote = useCallback((voteId: number) => {
+    toggleVoteUseCase.execute(listId, voteId);
+    setList(voteRepository.getList(listId));
+  }, [listId, toggleVoteUseCase, voteRepository]);
 
-  const addVoteToList = useCallback((listId: number) => {
-    setLists(prevLists => {
-      const existingList = prevLists.find(list => list.id === listId);
-      if (existingList) {
-        return prevLists.map(list =>
-          list.id === listId
-            ? {
-                ...list,
-                votes: [
-                  ...list.votes,
-                  { id: list.votes.length + 1, selected: false }
-                ]
-              }
-            : list
-        );
-      } else {
-        return [
-          ...prevLists,
-          { id: listId, votes: [{ id: 1, selected: false }] }
-        ];
-      }
-    });
-  }, []);
+  const addVoteToList = useCallback(() => {
+    addVoteUseCase.execute(listId);
+    setList(voteRepository.getList(listId));
+  }, [listId, addVoteUseCase, voteRepository]);
 
-  return { lists, toggleVote, addVoteToList };
+  const startAddVoteToList = useCallback(() => {
+    setList({ id: listId, votes: [{ id: 0, selected: false }] });
+  }, [listId]);
+
+  return { list, toggleVote, addVoteToList, startAddVoteToList };
 }; 

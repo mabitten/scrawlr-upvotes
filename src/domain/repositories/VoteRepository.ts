@@ -1,6 +1,6 @@
 import { VoteList } from '../../types';
 
 export interface VoteRepository {
-  getLists(): VoteList[];
-  saveLists(lists: VoteList[]): void;
+  getList(listId: number): VoteList;
+  saveList(lists: VoteList): void;
 } 
