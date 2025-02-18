@@ -1,4 +1,4 @@
-import { memo } from "react";
+import React, { memo } from "react";
 import { ChevronUpIcon } from "@heroicons/react/24/solid";
 
 import { Button } from "../ui";
@@ -19,6 +19,6 @@ const Upvote: React.FC<UpvoteProps> = memo(({ selected, onClick, ...props }) => 
       <ChevronUpIcon className={`h-4 w-4 ${selected ? 'text-blue-500' : 'text-gray-900'}`} />
     </Button>
   );
-});
+}, (prevProps, nextProps) => prevProps.selected === nextProps.selected);
 
 export default Upvote; 

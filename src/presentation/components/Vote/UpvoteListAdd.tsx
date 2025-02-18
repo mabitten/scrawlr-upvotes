@@ -1,17 +1,16 @@
-import { memo } from "react";
+import React, { memo } from "react";
 import { PlusIcon } from "@heroicons/react/24/solid";
 
 import { Button } from "../ui";
 
 type UpvoteListAddProps = {
-  addVoteToList: (listId: number) => void;
-  listId: number;
+  onAddVote: () => void;
 };
 
-const UpvoteListAdd: React.FC<UpvoteListAddProps> = memo(({ addVoteToList, listId, ...props }) => {
+const UpvoteListAdd: React.FC<UpvoteListAddProps> = memo(({ onAddVote, ...props }) => {
   return (
     <Button
-      onClick={() => addVoteToList(listId)}
+      onClick={onAddVote}
       variant="default"
       aria-label="Add new upvote"
       {...props}
@@ -19,6 +18,6 @@ const UpvoteListAdd: React.FC<UpvoteListAddProps> = memo(({ addVoteToList, listI
       <PlusIcon className="h-5 w-5" />
     </Button>
   );
-});
+}, (prevProps, nextProps) => prevProps.onAddVote === nextProps.onAddVote);
 
 export default UpvoteListAdd; 

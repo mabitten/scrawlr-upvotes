@@ -1,4 +1,4 @@
-import { memo, useEffect } from "react";
+import { memo, useEffect, useCallback } from "react";
 
 import { useUpvoteLogic } from "../../hooks";
 import { UpvoteListAdd, Upvote } from './';
@@ -9,30 +9,32 @@ type UpvoteListProps = {
 };
 
 const UpvoteList: React.FC<UpvoteListProps> = memo(({ listId }) => {
-  const { lists, toggleVote, addVoteToList } = useUpvoteLogic();
-  const list = lists.find((list: Pick<Vote, 'id'>) => list.id === listId);
+  const { list, toggleVote, addVoteToList, startAddVoteToList } = useUpvoteLogic(listId);
 
-  useEffect(() => {
-    if (!list) {
-      addVoteToList(listId);
+  useEffect(function startAddVoteToList() {
+    if (Object.keys(list).length === 0) {
+      startAddVoteToList();
     }
-  }, [list, listId, addVoteToList]);
+  }, [list, listId, startAddVoteToList]);
+
+  const handleAddVote = useCallback(() => {
+    addVoteToList();
+  }, [addVoteToList]);
 
   return (
     <div className="grid grid-cols-[9fr_1fr] items-center gap-2">
       <div className="flex flex-wrap gap-2">
-        {list?.votes.map((vote: Vote) => (
+        {list?.votes?.map((vote: Vote) => (
           <Upvote
             key={vote.id}
             selected={vote.selected}
-            onClick={() => toggleVote(listId, vote.id)}
+            onClick={() => toggleVote(vote.id)}
             data-testid={`upvote-button-${vote.id}`}
           />
         ))}
       </div>
       <UpvoteListAdd
-        addVoteToList={addVoteToList}
-        listId={listId}
+        onAddVote={handleAddVote}
         data-testid="add-upvote-button"
       />
     </div>
